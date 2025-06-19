@@ -1,0 +1,8 @@
+python-dotenv
+requests
+lxml
+loguru
+psycopg2-binary
+pandas 
+openpyxl 
+unidecode
