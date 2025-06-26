@@ -67,7 +67,7 @@ def create_proxy_opener():
     )
     
     # Add user agent header
-    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36')]
+    opener.addheaders = [('User-Agent', useragent)]
     
     return opener
 
@@ -700,6 +700,13 @@ def process_company_slugs_in_results_dir():
     # Tách file thành các batch
     batch_files_dir = "batches"
     batch_files = glob.glob(os.path.join(batch_files_dir, "*.csv"))
+
+    # Sort theo batch index tăng dần (an toàn hơn)
+    def get_batch_index(filename):
+        match = re.search(r'batch_(\d+)', filename)
+        return int(match.group(1)) if match else 0
+
+    batch_files.sort(key=get_batch_index)
     
     # Tạo thư mục để lưu kết quả
     results_dir = "crawled_results"
@@ -735,9 +742,9 @@ def process_company_slugs_in_results_dir():
             
             logging.info(f"Completed batch {batch_idx}: Saved to {result_filepath}")
 
-            if batch_idx < len(batch_files):
-                logging.info(f"Waiting 60 seconds before processing next batch...")
-                time.sleep(60)
+            # if batch_idx < len(batch_files):
+            #     logging.info(f"Waiting 60 seconds before processing next batch...")
+            #     time.sleep(60)
             
         except Exception as e:
             logging.error(f"Error processing batch {batch_idx}: {str(e)}")
@@ -745,39 +752,130 @@ def process_company_slugs_in_results_dir():
     
     logging.info("Batch processing completed")
 
-def crawl_batch_data(batch_df: pd.DataFrame) -> pd.DataFrame:
+# def crawl_batch_data(batch_df: pd.DataFrame) -> pd.DataFrame:
+#     """
+#     Crawl dữ liệu cho một batch companies
+    
+#     Args:
+#         batch_df: DataFrame chứa company slugs của batch
+    
+#     Returns:
+#         DataFrame chứa dữ liệu đã crawl
+#     """
+#     crawled_results = []
+    
+#     for idx, row in batch_df.iterrows():
+#         try:
+#             company_slug = row['slug']  # Giả sử column name là 'slug'
+#             mien = row['mien']  # Giả sử column name là 'mien'
+#             khu_vuc = row['khu_vuc']  # Giả sử column name là 'khu_vuc'
+#             tinh = row['tinh']  # Giả sử column name là 'tinh'
+#             print(f"Crawling company: {company_slug}  mien: {mien}, khu_vuc: {khu_vuc}, tinh: {tinh}")
+
+            
+#             # Gọi hàm crawl cho từng company (thay thế bằng hàm crawl thực tế)
+#             company_data = crawl_single_company(company_slug, mien=mien, khu_vuc=khu_vuc, tinh=tinh)
+            
+#             if company_data:
+#                 crawled_results.append(company_data)
+                
+#             logging.info(f"Crawled data for: {company_slug}")
+            
+#         except Exception as e:
+#             logging.error(f"Error crawling {company_slug}: {str(e)}")
+#             continue
+    
+#     return pd.DataFrame(crawled_results)
+
+import concurrent.futures
+import threading
+import pandas as pd
+import logging
+from typing import List, Tuple, Optional
+
+def crawl_single_company_wrapper(row_data: Tuple) -> Optional[dict]:
     """
-    Crawl dữ liệu cho một batch companies
+    Wrapper function để crawl một company với thread-safe logging
+    
+    Args:
+        row_data: Tuple chứa (index, company_slug, mien, khu_vuc, tinh)
+    
+    Returns:
+        Dictionary chứa dữ liệu company hoặc None nếu failed
+    """
+    idx, company_slug, mien, khu_vuc, tinh = row_data
+    thread_name = threading.current_thread().name
+    
+    try:
+        print(f"[{thread_name}] Crawling company: {company_slug}, mien: {mien}, khu_vuc: {khu_vuc}, tinh: {tinh}")
+        
+        # Gọi hàm crawl cho từng company
+        company_data = crawl_single_company(company_slug, mien=mien, khu_vuc=khu_vuc, tinh=tinh)
+        
+        if company_data:
+            logging.info(f"[{thread_name}] Successfully crawled data for: {company_slug}")
+            return company_data
+        else:
+            logging.warning(f"[{thread_name}] No data returned for: {company_slug}")
+            return None
+            
+    except Exception as e:
+        logging.error(f"[{thread_name}] Error crawling {company_slug}: {str(e)}")
+        return None
+
+def crawl_batch_data(batch_df: pd.DataFrame, max_workers: int = 10) -> pd.DataFrame:
+    """
+    Crawl dữ liệu cho một batch companies sử dụng 10 threads
     
     Args:
         batch_df: DataFrame chứa company slugs của batch
+        max_workers: Số lượng threads sử dụng (default: 10)
     
     Returns:
         DataFrame chứa dữ liệu đã crawl
     """
     crawled_results = []
     
-    for idx, row in batch_df.iterrows():
-        try:
-            company_slug = row['slug']  # Giả sử column name là 'slug'
-            mien = row['mien']  # Giả sử column name là 'mien'
-            khu_vuc = row['khu_vuc']  # Giả sử column name là 'khu_vuc'
-            tinh = row['tinh']  # Giả sử column name là 'tinh'
-            print(f"Crawling company: {company_slug}  mien: {mien}, khu_vuc: {khu_vuc}, tinh: {tinh}")
-
-            
-            # Gọi hàm crawl cho từng company (thay thế bằng hàm crawl thực tế)
-            company_data = crawl_single_company(company_slug, mien=mien, khu_vuc=khu_vuc, tinh=tinh)
-            
-            if company_data:
-                crawled_results.append(company_data)
-                
-            logging.info(f"Crawled data for: {company_slug}")
-            
-        except Exception as e:
-            logging.error(f"Error crawling {company_slug}: {str(e)}")
-            continue
+    # Chuẩn bị dữ liệu cho threads
+    row_data_list = [
+        (idx, row['slug'], row['mien'], row['khu_vuc'], row['tinh'])
+        for idx, row in batch_df.iterrows()
+    ]
     
+    print(f"Starting to crawl {len(row_data_list)} companies using {max_workers} threads...")
+    
+    # Sử dụng ThreadPoolExecutor để crawl song song
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit tất cả tasks
+        future_to_company = {
+            executor.submit(crawl_single_company_wrapper, row_data): row_data[1]  # row_data[1] là company_slug
+            for row_data in row_data_list
+        }
+        
+        # Thu thập kết quả khi hoàn thành
+        completed_count = 0
+        failed_count = 0
+        
+        for future in concurrent.futures.as_completed(future_to_company):
+            company_slug = future_to_company[future]
+            try:
+                result = future.result()
+                if result:
+                    crawled_results.append(result)
+                    completed_count += 1
+                else:
+                    failed_count += 1
+                    
+                # Progress tracking
+                total_processed = completed_count + failed_count
+                if total_processed % 10 == 0:  # Log progress every 10 companies
+                    print(f"Progress: {total_processed}/{len(row_data_list)} companies processed")
+                    
+            except Exception as exc:
+                failed_count += 1
+                logging.error(f"Thread execution failed for {company_slug}: {exc}")
+    
+    print(f"Crawling completed: {completed_count} successful, {failed_count} failed")
     return pd.DataFrame(crawled_results)
 
 def crawl_single_company(company_slug: str, mien=None, khu_vuc=None, tinh=None) -> dict:
@@ -869,6 +967,7 @@ def main():
     
     # Xử lý Miền Trung
     # process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
+    # batch_files = split_csv_into_batches("company_slugs.csv", batch_size=100)
     process_company_slugs_in_results_dir()
 
 main()
