@@ -19,11 +19,11 @@ from libs.user_agent import USER_AGENT
 import database
 import pattern
 import time
+import urllib.request
+import ssl
 
 useragent = USER_AGENT[randrange(len(USER_AGENT)-1)]
-# useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-# useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
-# const_headers = {'User-Agent': useragent}
+
 const_headers = {
     'User-Agent': useragent,
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
@@ -42,7 +42,55 @@ ignore_text = [
     'Bị ẩn theo yêu cầu người dùng'
 ]
 
+# BrightData proxy configuration
+BRIGHTDATA_PROXY = {
+    'username': 'brd-customer-hl_700e76f1-zone-residential_proxy1',
+    'password': '5nmllyvpntt7',
+    'endpoint': 'brd.superproxy.io',
+    'port': 33335
+}
+
+def create_proxy_opener():
+    """Create urllib opener with BrightData proxy configuration"""
+    proxy_url = f"http://{BRIGHTDATA_PROXY['username']}:{BRIGHTDATA_PROXY['password']}@{BRIGHTDATA_PROXY['endpoint']}:{BRIGHTDATA_PROXY['port']}"
+    
+    # Create SSL context that doesn't verify certificates
+    ssl_context = ssl._create_unverified_context()
+    
+    # Build opener with proxy and SSL handler
+    opener = urllib.request.build_opener(
+        urllib.request.ProxyHandler({
+            'http': proxy_url,
+            'https': proxy_url
+        }),
+        urllib.request.HTTPSHandler(context=ssl_context)
+    )
+    
+    # Add user agent header
+    opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36')]
+    
+    return opener
+
 session = requests.Session()
+def get_request_with_proxy(path_url):
+    """Make a request using the configured proxy"""
+    # Ensure the path_url starts with a slash
+    url = f'{pattern.BASE_URL}{path_url}'
+
+    try:
+        opener = create_proxy_opener()
+        response = opener.open(url, timeout=30)
+        html_content = response.read().decode('utf-8')
+        from lxml import html
+
+        # Giả sử html_content là nội dung HTML đầy đủ
+        tree = html.fromstring(html_content)
+        return tree
+    
+    except Exception as e:
+        print(f"Request failed: {e}")
+        return None
+    
 def get_request(path_url, headers={}, proxies=False):
     url = f'{pattern.BASE_URL}{path_url}'
     # final_headers = default_headers
@@ -306,20 +354,21 @@ def crawl_data_company_by_data(crawl_by, data, cur, conn, headers=const_headers,
 
 def crawl_data_company_by_url(url='', province_id=None, district_id=None, career_id=None, cur=False, conn=False, headers={}, proxies=False, mien=None, khu_vuc=None, tinh=None):
     try:
-        tree, response = get_request(url, headers, proxies)
-        with open('debug_response.html', 'w', encoding='utf-8') as f:
-            if hasattr(tree, 'tag'):
-                # Lấy text từ response đã decode đúng
-                if hasattr(response, 'text'):
-                    f.write(response.text)
-                else:
-                    html_content = etree.tostring(tree, encoding='unicode', pretty_print=True)
-                    f.write(html_content)
-            else:
-                f.write(str(tree))
-        if tree is None:
-            logger.error('Failed to get data company')
-            return
+        # tree, response = get_request(url, headers, proxies)
+        tree = get_request_with_proxy(url)
+        # with open('debug_response.html', 'w', encoding='utf-8') as f:
+        #     if hasattr(tree, 'tag'):
+        #         # Lấy text từ response đã decode đúng
+        #         if hasattr(response, 'text'):
+        #             f.write(response.text)
+        #         else:
+        #             html_content = etree.tostring(tree, encoding='unicode', pretty_print=True)
+        #             f.write(html_content)
+        #     else:
+        #         f.write(str(tree))
+        # if tree is None:
+        #     logger.error('Failed to get data company')
+        #     return
     except requests.exceptions.RequestException as err:
         logger.error(err.response.json())
         return err.response.json()
@@ -602,6 +651,7 @@ def process_company_slugs_in_batches(input_csv: str, batch_size: int = 100):
         batch_size: Số lượng items trong mỗi batch
     """
     logging.info(f"Starting batch processing for {input_csv}")
+    print(f"Starting batch processing for {input_csv}")
     
     # Tách file thành các batch
     batch_files = split_csv_into_batches(input_csv, batch_size)
@@ -614,6 +664,61 @@ def process_company_slugs_in_batches(input_csv: str, batch_size: int = 100):
     for batch_idx, batch_file in enumerate(batch_files, 1):
         try:
             logging.info(f"Processing batch {batch_idx}/{len(batch_files)}: {batch_file}")
+            print(f"Processing batch {batch_idx}/{len(batch_files)}: {batch_file}")
+            
+            # Đọc batch hiện tại
+            batch_df = pd.read_csv(batch_file)
+            
+            # Crawl data cho batch này
+            crawled_data = crawl_batch_data(batch_df)
+            
+            # Tạo tên file kết quả
+            result_filename = f"crawled_batch_{batch_idx:03d}.csv"
+            result_filepath = os.path.join(results_dir, result_filename)
+            
+            # Lưu kết quả crawl
+            crawled_data.to_csv(result_filepath, index=False)
+            
+            logging.info(f"Completed batch {batch_idx}: Saved to {result_filepath}")
+
+            if batch_idx < len(batch_files):
+                logging.info(f"Waiting 60 seconds before processing next batch...")
+                time.sleep(60)
+            
+        except Exception as e:
+            logging.error(f"Error processing batch {batch_idx}: {str(e)}")
+            continue
+    
+    logging.info("Batch processing completed")
+
+def process_company_slugs_in_results_dir():
+    """
+    Lưu kết quả vào thư mục crawled_results
+    """
+    import os
+    import glob
+    # Tách file thành các batch
+    batch_files_dir = "batches"
+    batch_files = glob.glob(os.path.join(batch_files_dir, "*.csv"))
+    
+    # Tạo thư mục để lưu kết quả
+    results_dir = "crawled_results"
+    os.makedirs(results_dir, exist_ok=True)
+    
+    # Xử lý từng batch
+    for batch_idx, batch_file in enumerate(batch_files, 1):
+
+        match = re.search(r'batch_(\d+)\.csv', batch_file)
+        if match:
+            batch_idx = int(match.group(1))
+            print(f"Processing batch {batch_idx}: {batch_file}")
+            # Xử lý file với batch_idx tương ứng
+        else:
+            print(f"Could not extract batch index from {batch_file}")
+            continue
+        try:
+            logging.info(f"Processing batch {batch_idx}/{len(batch_files)}: {batch_file}")
+            print(f"Processing batch {batch_idx}/{len(batch_files)}: {batch_file}")
             
             # Đọc batch hiện tại
             batch_df = pd.read_csv(batch_file)
@@ -763,6 +868,7 @@ def main():
     # from batch_processor import process_company_slugs_in_batches
     
     # Xử lý Miền Trung
-    process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
+    # process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
+    process_company_slugs_in_results_dir()
 
 main()
