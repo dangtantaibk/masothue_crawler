@@ -11,10 +11,52 @@ class ProxyManager:
     
     def get_free_proxies(self):
         """Get free proxies from various sources"""
-        proxy_urls = [
-            "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt",
-            "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt"
-        ]
+        import json
+        import os
+        
+        working_proxies_file = "working_proxies.json"
+        
+        try:
+            if os.path.exists(working_proxies_file):
+                with open(working_proxies_file, 'r') as f:
+                    data = json.load(f)
+                    proxies = data.get('proxies', [])
+                    
+                    # Extract just the proxy addresses
+                    proxy_list = []
+                    for proxy_info in proxies:
+                        proxy_address = proxy_info.get('proxy', '')
+                        if proxy_address:
+                            # Ensure format is ip:port
+                            if not proxy_address.startswith('http://'):
+                                proxy_list.append(proxy_address)
+                            else:
+                                # Remove http:// prefix
+                                proxy_list.append(proxy_address.replace('http://', ''))
+                    
+                    print(f"Loaded {len(proxy_list)} working proxies from file")
+                    return proxy_list
+            else:
+                print(f"Working proxies file not found: {working_proxies_file}")
+                print("Please run proxy_tester.py first to generate working proxies")
+                return []
+                
+        except Exception as e:
+            print(f"Error loading working proxies: {str(e)}")
+            return []
+        # proxy_urls = [
+        #     "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt",
+        #     "https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/proxy.txt",
+        #     "https://raw.githubusercontent.com/jetkai/proxy-list/main/online-proxies/txt/proxies-http.txt",
+        #     "https://raw.githubusercontent.com/mmpx12/proxy-list/master/http.txt",
+        #     "https://raw.githubusercontent.com/roosterkid/openproxylist/main/HTTPS_RAW.txt",
+        #     "https://raw.githubusercontent.com/sunny9577/proxy-scraper/master/proxies.txt",
+        #     "https://raw.githubusercontent.com/UserR00T/proxy-list/main/online/http.txt",
+        #     "https://raw.githubusercontent.com/prxchk/proxy-list/main/http.txt",
+        #     "https://api.proxyscrape.com/v2/?request=get&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all&format=textplain",
+        #     "https://www.proxy-list.download/api/v1/get?type=http",
+        #     "https://raw.githubusercontent.com/almroot/proxylist/master/list.txt"
+        # ]
         
         all_proxies = []
         for url in proxy_urls:
@@ -63,7 +105,7 @@ class ProxyManager:
         
         logger.info(f"Testing {len(all_proxies)} proxies...")
         working_count = 0
-        max_proxies = 3;
+        # max_proxies = 3;
 
         for proxy in all_proxies:
             print(f"working_count: {working_count}")

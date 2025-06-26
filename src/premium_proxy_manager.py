@@ -1,46 +1,33 @@
 import requests
 import random
 from itertools import cycle
+from loguru import logger
 
 class PremiumProxyManager:
     def __init__(self):
         # Các service proxy tốt cho Việt Nam
         self.proxy_services = {
-            'proxyrotator': {
-                'endpoint': 'rotating-residential.proxymesh.com:31280',
-                'username': 'your_username',
-                'password': 'your_password'
-            },
             'brightdata': {
-                'endpoint': 'zproxy.lum-superproxy.io:22225',
-                'username': 'your_username',
-                'password': 'your_password'
+                'username': 'brd-customer-hl_700e76f1-zone-datacenter_proxy1',
+                'password': 'kzonwlnmpe46',
+                'endpoint': 'brd.superproxy.io',
+                'port': 33335
             },
-            'smartproxy': {
-                'endpoint': 'gate.smartproxy.com:10001',
-                'username': 'your_username', 
-                'password': 'your_password'
-            }
         }
         
-        # Vietnamese proxy endpoints (if available)
-        self.vn_proxies = [
-            'vn-pr.oxylabs.io:10000',
-            'gate.smartproxy.com:10001',  # Has VN endpoints
-        ]
     
-    def get_proxy_config(self, service='smartproxy'):
+    def get_proxy_config(self, service='brightdata'):
         """Get proxy configuration"""
         config = self.proxy_services.get(service)
         if not config:
             return None
         
         return {
-            'http': f'http://{config["username"]}:{config["password"]}@{config["endpoint"]}',
-            'https': f'http://{config["username"]}:{config["password"]}@{config["endpoint"]}'
+            'http': f"http://{config['username']}:{config['password']}@{config['endpoint']}:{config['port']}",
+            'https': f"http://{config['username']}:{config['password']}@{config['endpoint']}:{config['port']}",
         }
     
-    def test_premium_proxy(self, service='smartproxy'):
+    def test_premium_proxy(self, service='brightdata'):
         """Test premium proxy service"""
         proxy_config = self.get_proxy_config(service)
         if not proxy_config:

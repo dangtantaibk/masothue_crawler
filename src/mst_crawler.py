@@ -18,6 +18,7 @@ import logging
 from libs.user_agent import USER_AGENT
 import database
 import pattern
+import time
 
 useragent = USER_AGENT[randrange(len(USER_AGENT)-1)]
 # useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -303,7 +304,7 @@ def crawl_data_company_by_data(crawl_by, data, cur, conn, headers=const_headers,
     return
 
 
-def crawl_data_company_by_url(url='', province_id=None, district_id=None, career_id=None, cur=False, conn=False, headers={}, proxies=False):
+def crawl_data_company_by_url(url='', province_id=None, district_id=None, career_id=None, cur=False, conn=False, headers={}, proxies=False, mien=None, khu_vuc=None, tinh=None):
     try:
         tree, response = get_request(url, headers, proxies)
         with open('debug_response.html', 'w', encoding='utf-8') as f:
@@ -336,6 +337,7 @@ def crawl_data_company_by_url(url='', province_id=None, district_id=None, career
     conpany_manage_el = tree.xpath('//i[@class="fa fa-users"]/../../td[2]/span') # Quản lý bởi
     conpany_category_el = tree.xpath('//i[@class="fa fa-building"]/../../td[2]/a') # Loại hình doanh nghiệp
     conpany_status_el = tree.xpath('//i[@class="fa fa-info"]/../../td[2]/a') # Tình trạng hoạt động
+    conpany_briefcase_el = tree.xpath('//i[@class="fa fa-briefcase"]/../../td[2]/a') # Ngành nghề chính
     conpany_last_update_el = tree.xpath('//td//em') # Cập nhật gần nhất
     company_career_els = tree.xpath('//table[@class="table"]//tbody//tr') # Ngành nghề kinh doanh
 
@@ -350,6 +352,7 @@ def crawl_data_company_by_url(url='', province_id=None, district_id=None, career
     conpany_manage = len(conpany_manage_el) and conpany_manage_el[0].text_content().strip() or None
     conpany_category = len(conpany_category_el) and conpany_category_el[0].text_content().strip() or None
     conpany_status = len(conpany_status_el) and conpany_status_el[0].text_content().strip() or None
+    conpany_briefcase = len(conpany_briefcase_el) and conpany_briefcase_el[0].text_content().strip() or None
     conpany_last_update = len(conpany_last_update_el) and conpany_last_update_el[0].text_content().strip() or None
 
     if company_name in ignore_text:
@@ -374,6 +377,8 @@ def crawl_data_company_by_url(url='', province_id=None, district_id=None, career
         conpany_category = None
     if conpany_status in ignore_text:
         conpany_status = None
+    if conpany_briefcase in ignore_text:
+        conpany_briefcase = None
     if conpany_last_update in ignore_text:
         conpany_last_update = None
 
@@ -389,13 +394,14 @@ def crawl_data_company_by_url(url='', province_id=None, district_id=None, career
     company_career_names = ', '.join(company_career_name)
 
     company_data = {
+        'mien': mien,
+        'khu_vuc': khu_vuc,
+        'tinh': tinh,
         'name': company_name,
         'name_short': company_name_short,
         'name_global': company_name_globe,
         'tax': conpany_tax,
         'address': conpany_address,
-        # 'district_id': district_id,
-        # 'province_id': province_id,
         'representative': conpany_user,
         'phone': conpany_phone,
         'active_date': conpany_active_date,
@@ -403,6 +409,7 @@ def crawl_data_company_by_url(url='', province_id=None, district_id=None, career
         'category': conpany_category,
         'status': conpany_status,
         'last_update': conpany_last_update,
+        'conpany_briefcase': conpany_briefcase,
         'career_code': company_career_codes,
         'career_name': company_career_names,
         'slug': url
@@ -456,6 +463,7 @@ def print_company_info(data):
     print(f"📂 Loại hình         : {data.get('category', 'N/A')}")
     print(f"✅ Trạng thái        : {data.get('status', 'N/A')}")
     print(f"🔄 Cập nhật cuối     : {data.get('last_update', 'N/A')}")
+    print(f"🔄 Ngành nghề kinh doanh chính     : {data.get('conpany_briefcase', 'N/A')}")
     
     print("\n" + "-"*50)
     print("💼 NGÀNH NGHỀ")
@@ -492,12 +500,18 @@ def read_excel_and_generate_slugs(file_path):
         
         # Lấy cột D (tên công ty) và cột E (mã số thuế)
         # Pandas sử dụng index từ 0, nên cột D = index 3, cột E = index 4
-        ten_cty_col = df.iloc[:, 3]  # Cột D
-        mst_col = df.iloc[:, 4]      # Cột E
+        mien_col = df.iloc[:, 1]  # Cột B
+        khu_vuc_col = df.iloc[:, 2]  # Cột C
+        tinh_col = df.iloc[:, 3]  # Cột D
+        ten_cty_col = df.iloc[:, 4]  # Cột E
+        mst_col = df.iloc[:, 9]      # Cột J
         
         # Tạo danh sách các slug
         slugs = []
         for i in range(len(df)):
+            mien = mien_col.iloc[i]
+            khu_vuc = khu_vuc_col.iloc[i]
+            tinh = tinh_col.iloc[i]
             ten_cty = ten_cty_col.iloc[i]
             mst = mst_col.iloc[i]
             
@@ -505,6 +519,9 @@ def read_excel_and_generate_slugs(file_path):
             if pd.notna(ten_cty) and pd.notna(mst):
                 slug = generate_slug(ten_cty, mst)
                 slugs.append({
+                    'mien': mien,
+                    'khu_vuc': khu_vuc,
+                    'tinh': tinh,
                     'ten_cong_ty': ten_cty,
                     'ma_so_thue': mst,
                     'slug': slug
@@ -612,6 +629,10 @@ def process_company_slugs_in_batches(input_csv: str, batch_size: int = 100):
             crawled_data.to_csv(result_filepath, index=False)
             
             logging.info(f"Completed batch {batch_idx}: Saved to {result_filepath}")
+
+            if batch_idx < len(batch_files):
+                logging.info(f"Waiting 60 seconds before processing next batch...")
+                time.sleep(60)
             
         except Exception as e:
             logging.error(f"Error processing batch {batch_idx}: {str(e)}")
@@ -634,9 +655,14 @@ def crawl_batch_data(batch_df: pd.DataFrame) -> pd.DataFrame:
     for idx, row in batch_df.iterrows():
         try:
             company_slug = row['slug']  # Giả sử column name là 'slug'
+            mien = row['mien']  # Giả sử column name là 'mien'
+            khu_vuc = row['khu_vuc']  # Giả sử column name là 'khu_vuc'
+            tinh = row['tinh']  # Giả sử column name là 'tinh'
+            print(f"Crawling company: {company_slug}  mien: {mien}, khu_vuc: {khu_vuc}, tinh: {tinh}")
+
             
             # Gọi hàm crawl cho từng company (thay thế bằng hàm crawl thực tế)
-            company_data = crawl_single_company(company_slug)
+            company_data = crawl_single_company(company_slug, mien=mien, khu_vuc=khu_vuc, tinh=tinh)
             
             if company_data:
                 crawled_results.append(company_data)
@@ -649,7 +675,7 @@ def crawl_batch_data(batch_df: pd.DataFrame) -> pd.DataFrame:
     
     return pd.DataFrame(crawled_results)
 
-def crawl_single_company(company_slug: str) -> dict:
+def crawl_single_company(company_slug: str, mien=None, khu_vuc=None, tinh=None) -> dict:
     """
     Crawl dữ liệu cho một company cụ thể
     
@@ -660,7 +686,7 @@ def crawl_single_company(company_slug: str) -> dict:
         Dictionary chứa dữ liệu company
     """
     # Ví dụ:
-    return crawl_data_company_by_url(company_slug, const_headers)
+    return crawl_data_company_by_url(company_slug, const_headers, mien=mien, khu_vuc=khu_vuc, tinh=tinh)
     # return crawl_company_details(company_slug)
     
 
@@ -703,7 +729,7 @@ def merge_batch_results(results_dir: str = "crawled_results", output_file: str =
 # crawl_data_career(pattern.URL_PATH_BY_CAREER, const_headers) # =================================================== Job
 
 # Đọc file Excel và tạo slug
-# file_path = "/Users/taidang/Desktop/hanoi_FULL.xlsx"  # Thay đổi đường dẫn file
+# file_path = "/Users/taidang/Documents/AI/masothue_crawler/Miền Bắc - Final - 02.xlsx"  # Thay đổi đường dẫn file
 # results = read_excel_and_generate_slugs(file_path)
 
 # In kết quả
@@ -726,14 +752,17 @@ def merge_batch_results(results_dir: str = "crawled_results", output_file: str =
 # crawl_data_company_by_url('/2100689933-cong-ty-tnhh-mtv-vang-bac-kim-hue', const_headers)
 # crawl_data_company_by_url('/2100689059-cong-ty-tnhh-xang-dau-tra-vinh-petro', const_headers)
 # crawl_data_company_by_url('/0315739605-001-van-phong-dai-dien-cong-ty-tnhh-chint-vietnam-holding-tai-ha-noi', const_headers)
-process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
-# def main():
-#     """Hàm main để chạy batch processing"""
+# process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
+def main():
+    """Hàm main để chạy batch processing"""
     
-#     # Thay vì xử lý toàn bộ file một lúc
-#     # process_company_slugs("company_slugs.csv")
+    # Thay vì xử lý toàn bộ file một lúc
+    # process_company_slugs("company_slugs.csv")
     
-#     # Sử dụng batch processing
-#     # from batch_processor import process_company_slugs_in_batches
+    # Sử dụng batch processing
+    # from batch_processor import process_company_slugs_in_batches
     
-#     process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
+    # Xử lý Miền Trung
+    process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
+
+main()

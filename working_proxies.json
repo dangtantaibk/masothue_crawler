@@ -1,0 +1,774 @@
+{
+  "last_updated": "2025-06-21T20:40:53.215461",
+  "total_working": 128,
+  "proxies": [
+    {
+      "proxy": "18.60.105.194:17552",
+      "success_rate": 1.0,
+      "avg_response_time": 3.37,
+      "tested_at": "2025-06-21T20:33:25.543969"
+    },
+    {
+      "proxy": "89.117.145.245:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 10.59,
+      "tested_at": "2025-06-21T20:33:31.618756"
+    },
+    {
+      "proxy": "23.138.88.96:999",
+      "success_rate": 1.0,
+      "avg_response_time": 10.05,
+      "tested_at": "2025-06-21T20:33:31.977422"
+    },
+    {
+      "proxy": "43.216.143.123:9008",
+      "success_rate": 1.0,
+      "avg_response_time": 2.02,
+      "tested_at": "2025-06-21T20:33:34.888218"
+    },
+    {
+      "proxy": "103.180.123.27:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 3.78,
+      "tested_at": "2025-06-21T20:33:34.917052"
+    },
+    {
+      "proxy": "45.186.6.104:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 2.65,
+      "tested_at": "2025-06-21T20:33:35.828231"
+    },
+    {
+      "proxy": "190.110.34.254:999",
+      "success_rate": 1.0,
+      "avg_response_time": 13.25,
+      "tested_at": "2025-06-21T20:33:44.739193"
+    },
+    {
+      "proxy": "103.114.96.246:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 6.2,
+      "tested_at": "2025-06-21T20:33:47.946356"
+    },
+    {
+      "proxy": "160.22.118.203:39083",
+      "success_rate": 1.0,
+      "avg_response_time": 10.55,
+      "tested_at": "2025-06-21T20:33:53.118169"
+    },
+    {
+      "proxy": "223.206.154.237:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 13.64,
+      "tested_at": "2025-06-21T20:33:59.398520"
+    },
+    {
+      "proxy": "103.149.238.194:1111",
+      "success_rate": 1.0,
+      "avg_response_time": 7.83,
+      "tested_at": "2025-06-21T20:34:01.155901"
+    },
+    {
+      "proxy": "38.254.108.1:999",
+      "success_rate": 1.0,
+      "avg_response_time": 7.16,
+      "tested_at": "2025-06-21T20:34:08.339489"
+    },
+    {
+      "proxy": "14.230.73.147:20399",
+      "success_rate": 1.0,
+      "avg_response_time": 14.65,
+      "tested_at": "2025-06-21T20:34:08.896644"
+    },
+    {
+      "proxy": "45.12.150.82:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 10.06,
+      "tested_at": "2025-06-21T20:34:11.080970"
+    },
+    {
+      "proxy": "115.72.160.154:10015",
+      "success_rate": 1.0,
+      "avg_response_time": 2.58,
+      "tested_at": "2025-06-21T20:34:13.618885"
+    },
+    {
+      "proxy": "103.148.131.108:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 8.85,
+      "tested_at": "2025-06-21T20:34:20.845465"
+    },
+    {
+      "proxy": "103.180.118.174:6789",
+      "success_rate": 1.0,
+      "avg_response_time": 6.48,
+      "tested_at": "2025-06-21T20:34:22.539750"
+    },
+    {
+      "proxy": "170.81.171.189:8282",
+      "success_rate": 1.0,
+      "avg_response_time": 7.85,
+      "tested_at": "2025-06-21T20:34:24.991177"
+    },
+    {
+      "proxy": "15.168.175.83:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 5.89,
+      "tested_at": "2025-06-21T20:34:26.982425"
+    },
+    {
+      "proxy": "141.136.56.104:999",
+      "success_rate": 1.0,
+      "avg_response_time": 11.2,
+      "tested_at": "2025-06-21T20:34:28.475729"
+    },
+    {
+      "proxy": "103.218.24.67:58080",
+      "success_rate": 1.0,
+      "avg_response_time": 8.74,
+      "tested_at": "2025-06-21T20:34:30.921039"
+    },
+    {
+      "proxy": "18.102.219.234:80",
+      "success_rate": 1.0,
+      "avg_response_time": 2.32,
+      "tested_at": "2025-06-21T20:34:39.306746"
+    },
+    {
+      "proxy": "178.128.97.122:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 2.05,
+      "tested_at": "2025-06-21T20:34:39.625541"
+    },
+    {
+      "proxy": "16.171.242.247:57",
+      "success_rate": 1.0,
+      "avg_response_time": 5.94,
+      "tested_at": "2025-06-21T20:34:39.870359"
+    },
+    {
+      "proxy": "179.97.120.93:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 8.44,
+      "tested_at": "2025-06-21T20:34:41.547578"
+    },
+    {
+      "proxy": "202.47.188.193:7777",
+      "success_rate": 1.0,
+      "avg_response_time": 5.7,
+      "tested_at": "2025-06-21T20:34:43.468774"
+    },
+    {
+      "proxy": "38.250.155.170:999",
+      "success_rate": 1.0,
+      "avg_response_time": 9.4,
+      "tested_at": "2025-06-21T20:34:45.056942"
+    },
+    {
+      "proxy": "181.57.183.26:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 12.23,
+      "tested_at": "2025-06-21T20:34:45.140721"
+    },
+    {
+      "proxy": "37.27.203.159:8013",
+      "success_rate": 1.0,
+      "avg_response_time": 2.87,
+      "tested_at": "2025-06-21T20:34:45.793372"
+    },
+    {
+      "proxy": "3.35.134.107:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 2.94,
+      "tested_at": "2025-06-21T20:34:46.837426"
+    },
+    {
+      "proxy": "3.72.40.248:50202",
+      "success_rate": 1.0,
+      "avg_response_time": 2.3,
+      "tested_at": "2025-06-21T20:34:47.276147"
+    },
+    {
+      "proxy": "117.102.78.51:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 8.7,
+      "tested_at": "2025-06-21T20:34:52.436602"
+    },
+    {
+      "proxy": "45.4.203.115:999",
+      "success_rate": 1.0,
+      "avg_response_time": 14.82,
+      "tested_at": "2025-06-21T20:34:56.363811"
+    },
+    {
+      "proxy": "164.163.40.16:10000",
+      "success_rate": 1.0,
+      "avg_response_time": 12.47,
+      "tested_at": "2025-06-21T20:34:58.543548"
+    },
+    {
+      "proxy": "103.66.149.194:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 7.79,
+      "tested_at": "2025-06-21T20:35:03.411500"
+    },
+    {
+      "proxy": "164.163.74.97:999",
+      "success_rate": 1.0,
+      "avg_response_time": 12.73,
+      "tested_at": "2025-06-21T20:35:05.770515"
+    },
+    {
+      "proxy": "103.146.197.78:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 4.26,
+      "tested_at": "2025-06-21T20:35:14.936042"
+    },
+    {
+      "proxy": "45.22.209.157:8888",
+      "success_rate": 1.0,
+      "avg_response_time": 3.32,
+      "tested_at": "2025-06-21T20:35:16.023124"
+    },
+    {
+      "proxy": "103.154.77.47:89",
+      "success_rate": 1.0,
+      "avg_response_time": 10.8,
+      "tested_at": "2025-06-21T20:35:18.828496"
+    },
+    {
+      "proxy": "18.100.217.180:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 5.75,
+      "tested_at": "2025-06-21T20:35:19.643573"
+    },
+    {
+      "proxy": "43.216.148.22:37425",
+      "success_rate": 1.0,
+      "avg_response_time": 2.99,
+      "tested_at": "2025-06-21T20:35:32.682551"
+    },
+    {
+      "proxy": "57.129.81.201:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 5.1,
+      "tested_at": "2025-06-21T20:35:40.385232"
+    },
+    {
+      "proxy": "18.102.219.234:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 1.83,
+      "tested_at": "2025-06-21T20:35:40.498448"
+    },
+    {
+      "proxy": "54.210.19.156:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 4.01,
+      "tested_at": "2025-06-21T20:35:42.633223"
+    },
+    {
+      "proxy": "194.170.146.125:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 2.18,
+      "tested_at": "2025-06-21T20:35:44.112064"
+    },
+    {
+      "proxy": "201.174.239.25:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 2.02,
+      "tested_at": "2025-06-21T20:35:45.131154"
+    },
+    {
+      "proxy": "189.124.85.77:33333",
+      "success_rate": 1.0,
+      "avg_response_time": 8.92,
+      "tested_at": "2025-06-21T20:35:50.798790"
+    },
+    {
+      "proxy": "103.127.220.98:1413",
+      "success_rate": 1.0,
+      "avg_response_time": 5.86,
+      "tested_at": "2025-06-21T20:35:51.288965"
+    },
+    {
+      "proxy": "27.79.204.202:16000",
+      "success_rate": 1.0,
+      "avg_response_time": 3.94,
+      "tested_at": "2025-06-21T20:36:00.324937"
+    },
+    {
+      "proxy": "103.165.156.11:8090",
+      "success_rate": 1.0,
+      "avg_response_time": 10.09,
+      "tested_at": "2025-06-21T20:36:01.099537"
+    },
+    {
+      "proxy": "199.48.129.114:3120",
+      "success_rate": 1.0,
+      "avg_response_time": 1.78,
+      "tested_at": "2025-06-21T20:36:06.038815"
+    },
+    {
+      "proxy": "103.153.39.35:8083",
+      "success_rate": 1.0,
+      "avg_response_time": 8.73,
+      "tested_at": "2025-06-21T20:36:06.368179"
+    },
+    {
+      "proxy": "116.103.25.152:16000",
+      "success_rate": 1.0,
+      "avg_response_time": 6.77,
+      "tested_at": "2025-06-21T20:36:13.359096"
+    },
+    {
+      "proxy": "103.247.14.138:7777",
+      "success_rate": 1.0,
+      "avg_response_time": 8.29,
+      "tested_at": "2025-06-21T20:36:13.714045"
+    },
+    {
+      "proxy": "165.16.92.193:8104",
+      "success_rate": 1.0,
+      "avg_response_time": 6.76,
+      "tested_at": "2025-06-21T20:36:14.361525"
+    },
+    {
+      "proxy": "38.41.1.76:999",
+      "success_rate": 1.0,
+      "avg_response_time": 2.93,
+      "tested_at": "2025-06-21T20:36:14.502154"
+    },
+    {
+      "proxy": "45.4.202.170:999",
+      "success_rate": 1.0,
+      "avg_response_time": 10.56,
+      "tested_at": "2025-06-21T20:36:18.252345"
+    },
+    {
+      "proxy": "20.27.15.49:8561",
+      "success_rate": 1.0,
+      "avg_response_time": 1.13,
+      "tested_at": "2025-06-21T20:36:19.015498"
+    },
+    {
+      "proxy": "103.76.86.23:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 1.29,
+      "tested_at": "2025-06-21T20:36:22.593084"
+    },
+    {
+      "proxy": "164.68.101.70:8888",
+      "success_rate": 1.0,
+      "avg_response_time": 19.68,
+      "tested_at": "2025-06-21T20:36:23.209148"
+    },
+    {
+      "proxy": "167.86.93.118:8074",
+      "success_rate": 1.0,
+      "avg_response_time": 8.57,
+      "tested_at": "2025-06-21T20:36:25.215863"
+    },
+    {
+      "proxy": "13.221.134.55:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 7.73,
+      "tested_at": "2025-06-21T20:36:28.292758"
+    },
+    {
+      "proxy": "103.75.96.70:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 8.66,
+      "tested_at": "2025-06-21T20:36:29.694404"
+    },
+    {
+      "proxy": "18.203.249.67:10010",
+      "success_rate": 1.0,
+      "avg_response_time": 4.89,
+      "tested_at": "2025-06-21T20:36:36.972825"
+    },
+    {
+      "proxy": "52.10.155.147:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 2.07,
+      "tested_at": "2025-06-21T20:36:48.337451"
+    },
+    {
+      "proxy": "98.130.47.34:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 1.54,
+      "tested_at": "2025-06-21T20:36:52.966189"
+    },
+    {
+      "proxy": "18.230.17.0:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 4.42,
+      "tested_at": "2025-06-21T20:36:58.130072"
+    },
+    {
+      "proxy": "147.75.49.154:9401",
+      "success_rate": 1.0,
+      "avg_response_time": 1.35,
+      "tested_at": "2025-06-21T20:37:00.188835"
+    },
+    {
+      "proxy": "110.49.34.126:32650",
+      "success_rate": 1.0,
+      "avg_response_time": 9.93,
+      "tested_at": "2025-06-21T20:37:00.939566"
+    },
+    {
+      "proxy": "116.103.27.67:16000",
+      "success_rate": 1.0,
+      "avg_response_time": 6.14,
+      "tested_at": "2025-06-21T20:37:01.451412"
+    },
+    {
+      "proxy": "115.72.160.154:10003",
+      "success_rate": 1.0,
+      "avg_response_time": 5.43,
+      "tested_at": "2025-06-21T20:37:05.373873"
+    },
+    {
+      "proxy": "103.148.39.50:82",
+      "success_rate": 1.0,
+      "avg_response_time": 8.55,
+      "tested_at": "2025-06-21T20:37:08.451664"
+    },
+    {
+      "proxy": "38.191.203.243:999",
+      "success_rate": 1.0,
+      "avg_response_time": 10.18,
+      "tested_at": "2025-06-21T20:37:13.104186"
+    },
+    {
+      "proxy": "13.251.239.15:1080",
+      "success_rate": 1.0,
+      "avg_response_time": 1.65,
+      "tested_at": "2025-06-21T20:37:15.879111"
+    },
+    {
+      "proxy": "185.189.100.94:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 11.03,
+      "tested_at": "2025-06-21T20:37:19.084665"
+    },
+    {
+      "proxy": "135.234.106.253:80",
+      "success_rate": 1.0,
+      "avg_response_time": 2.38,
+      "tested_at": "2025-06-21T20:37:23.859331"
+    },
+    {
+      "proxy": "110.38.226.139:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 5.56,
+      "tested_at": "2025-06-21T20:37:27.589602"
+    },
+    {
+      "proxy": "13.40.243.2:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 2.34,
+      "tested_at": "2025-06-21T20:37:32.616536"
+    },
+    {
+      "proxy": "101.255.167.242:8090",
+      "success_rate": 1.0,
+      "avg_response_time": 7.34,
+      "tested_at": "2025-06-21T20:37:47.364958"
+    },
+    {
+      "proxy": "103.167.171.50:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 6.18,
+      "tested_at": "2025-06-21T20:37:47.424022"
+    },
+    {
+      "proxy": "20.27.11.248:8561",
+      "success_rate": 1.0,
+      "avg_response_time": 1.78,
+      "tested_at": "2025-06-21T20:37:48.932004"
+    },
+    {
+      "proxy": "45.177.16.136:999",
+      "success_rate": 1.0,
+      "avg_response_time": 7.68,
+      "tested_at": "2025-06-21T20:37:49.986164"
+    },
+    {
+      "proxy": "40.172.241.222:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 3.31,
+      "tested_at": "2025-06-21T20:37:53.037760"
+    },
+    {
+      "proxy": "103.80.98.46:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 1.15,
+      "tested_at": "2025-06-21T20:37:58.674408"
+    },
+    {
+      "proxy": "113.184.216.138:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 12.52,
+      "tested_at": "2025-06-21T20:37:59.884839"
+    },
+    {
+      "proxy": "119.18.149.9:5020",
+      "success_rate": 1.0,
+      "avg_response_time": 5.14,
+      "tested_at": "2025-06-21T20:38:17.595546"
+    },
+    {
+      "proxy": "208.87.243.199:7878",
+      "success_rate": 1.0,
+      "avg_response_time": 5.46,
+      "tested_at": "2025-06-21T20:38:19.920807"
+    },
+    {
+      "proxy": "103.119.152.146:8989",
+      "success_rate": 1.0,
+      "avg_response_time": 0.86,
+      "tested_at": "2025-06-21T20:38:20.092572"
+    },
+    {
+      "proxy": "57.129.81.201:999",
+      "success_rate": 1.0,
+      "avg_response_time": 3.67,
+      "tested_at": "2025-06-21T20:38:26.737841"
+    },
+    {
+      "proxy": "65.2.11.52:34967",
+      "success_rate": 1.0,
+      "avg_response_time": 2.72,
+      "tested_at": "2025-06-21T20:38:27.307115"
+    },
+    {
+      "proxy": "43.199.163.10:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 5.01,
+      "tested_at": "2025-06-21T20:38:33.147324"
+    },
+    {
+      "proxy": "99.112.0.213:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 1.61,
+      "tested_at": "2025-06-21T20:38:35.287578"
+    },
+    {
+      "proxy": "222.59.173.105:45192",
+      "success_rate": 1.0,
+      "avg_response_time": 15.3,
+      "tested_at": "2025-06-21T20:38:38.993270"
+    },
+    {
+      "proxy": "190.60.41.26:999",
+      "success_rate": 1.0,
+      "avg_response_time": 7.78,
+      "tested_at": "2025-06-21T20:38:43.427994"
+    },
+    {
+      "proxy": "117.250.3.58:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 1.67,
+      "tested_at": "2025-06-21T20:38:48.147011"
+    },
+    {
+      "proxy": "23.94.214.45:221",
+      "success_rate": 1.0,
+      "avg_response_time": 5.23,
+      "tested_at": "2025-06-21T20:38:49.040221"
+    },
+    {
+      "proxy": "103.215.187.67:3127",
+      "success_rate": 1.0,
+      "avg_response_time": 6.91,
+      "tested_at": "2025-06-21T20:38:55.001739"
+    },
+    {
+      "proxy": "36.93.56.58:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 8.48,
+      "tested_at": "2025-06-21T20:38:57.001955"
+    },
+    {
+      "proxy": "103.172.254.145:84",
+      "success_rate": 1.0,
+      "avg_response_time": 9.02,
+      "tested_at": "2025-06-21T20:39:00.487917"
+    },
+    {
+      "proxy": "13.57.11.118:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 2.43,
+      "tested_at": "2025-06-21T20:39:04.361857"
+    },
+    {
+      "proxy": "103.88.245.234:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 6.89,
+      "tested_at": "2025-06-21T20:39:05.315851"
+    },
+    {
+      "proxy": "80.79.6.124:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 5.19,
+      "tested_at": "2025-06-21T20:39:12.800504"
+    },
+    {
+      "proxy": "190.94.211.78:999",
+      "success_rate": 1.0,
+      "avg_response_time": 14.0,
+      "tested_at": "2025-06-21T20:39:16.923073"
+    },
+    {
+      "proxy": "38.123.48.50:999",
+      "success_rate": 1.0,
+      "avg_response_time": 10.67,
+      "tested_at": "2025-06-21T20:39:18.394981"
+    },
+    {
+      "proxy": "217.69.201.247:8181",
+      "success_rate": 1.0,
+      "avg_response_time": 5.3,
+      "tested_at": "2025-06-21T20:39:19.209506"
+    },
+    {
+      "proxy": "52.210.15.148:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 5.24,
+      "tested_at": "2025-06-21T20:39:20.428821"
+    },
+    {
+      "proxy": "54.151.76.235:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 4.56,
+      "tested_at": "2025-06-21T20:39:22.634486"
+    },
+    {
+      "proxy": "116.203.139.209:5678",
+      "success_rate": 1.0,
+      "avg_response_time": 10.7,
+      "tested_at": "2025-06-21T20:39:35.507506"
+    },
+    {
+      "proxy": "54.242.208.61:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 2.4,
+      "tested_at": "2025-06-21T20:39:35.826258"
+    },
+    {
+      "proxy": "3.97.12.52:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 3.91,
+      "tested_at": "2025-06-21T20:39:37.041427"
+    },
+    {
+      "proxy": "37.27.253.44:8011",
+      "success_rate": 1.0,
+      "avg_response_time": 14.05,
+      "tested_at": "2025-06-21T20:39:37.811734"
+    },
+    {
+      "proxy": "45.167.126.37:999",
+      "success_rate": 1.0,
+      "avg_response_time": 15.44,
+      "tested_at": "2025-06-21T20:39:38.403957"
+    },
+    {
+      "proxy": "37.27.253.44:8037",
+      "success_rate": 1.0,
+      "avg_response_time": 4.36,
+      "tested_at": "2025-06-21T20:39:40.410445"
+    },
+    {
+      "proxy": "51.81.245.3:17981",
+      "success_rate": 1.0,
+      "avg_response_time": 5.69,
+      "tested_at": "2025-06-21T20:39:44.493037"
+    },
+    {
+      "proxy": "14.241.80.37:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 0.48,
+      "tested_at": "2025-06-21T20:39:45.592148"
+    },
+    {
+      "proxy": "185.208.102.181:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 10.18,
+      "tested_at": "2025-06-21T20:39:46.605890"
+    },
+    {
+      "proxy": "77.225.198.220:9812",
+      "success_rate": 1.0,
+      "avg_response_time": 8.46,
+      "tested_at": "2025-06-21T20:39:49.255557"
+    },
+    {
+      "proxy": "102.213.219.238:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 14.16,
+      "tested_at": "2025-06-21T20:39:52.135365"
+    },
+    {
+      "proxy": "161.49.176.173:1337",
+      "success_rate": 1.0,
+      "avg_response_time": 5.93,
+      "tested_at": "2025-06-21T20:39:57.060574"
+    },
+    {
+      "proxy": "164.163.42.46:10000",
+      "success_rate": 1.0,
+      "avg_response_time": 6.5,
+      "tested_at": "2025-06-21T20:40:01.046222"
+    },
+    {
+      "proxy": "125.24.132.78:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 10.65,
+      "tested_at": "2025-06-21T20:40:02.030866"
+    },
+    {
+      "proxy": "62.109.15.27:3120",
+      "success_rate": 1.0,
+      "avg_response_time": 5.58,
+      "tested_at": "2025-06-21T20:40:10.474899"
+    },
+    {
+      "proxy": "18.179.196.43:3128",
+      "success_rate": 1.0,
+      "avg_response_time": 5.22,
+      "tested_at": "2025-06-21T20:40:12.422323"
+    },
+    {
+      "proxy": "122.52.185.72:8080",
+      "success_rate": 1.0,
+      "avg_response_time": 10.86,
+      "tested_at": "2025-06-21T20:40:16.925518"
+    },
+    {
+      "proxy": "202.179.69.216:58080",
+      "success_rate": 1.0,
+      "avg_response_time": 11.68,
+      "tested_at": "2025-06-21T20:40:21.437660"
+    },
+    {
+      "proxy": "181.209.72.174:999",
+      "success_rate": 1.0,
+      "avg_response_time": 7.19,
+      "tested_at": "2025-06-21T20:40:36.423733"
+    },
+    {
+      "proxy": "38.250.126.201:999",
+      "success_rate": 1.0,
+      "avg_response_time": 3.09,
+      "tested_at": "2025-06-21T20:40:38.616443"
+    },
+    {
+      "proxy": "3.101.76.84:18242",
+      "success_rate": 1.0,
+      "avg_response_time": 9.61,
+      "tested_at": "2025-06-21T20:40:43.082462"
+    }
+  ]
+}
