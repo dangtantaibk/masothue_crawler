@@ -2,6 +2,8 @@
 
 import json
 from random import randrange
+import sys
+from urllib.error import HTTPError
 import requests
 from lxml import html
 from loguru import logger
@@ -44,10 +46,10 @@ ignore_text = [
 
 # BrightData proxy configuration
 BRIGHTDATA_PROXY = {
-    'username': 'brd-customer-hl_700e76f1-zone-residential_proxy1',
-    'password': '5nmllyvpntt7',
+    'username': 'brd-customer-hl_5338dfdd-zone-residential_proxy1',
+    'password': 'bjo4gofshd0z',
     'endpoint': 'brd.superproxy.io',
-    'port': 33335
+    'port': 33335,
 }
 
 def create_proxy_opener():
@@ -66,9 +68,22 @@ def create_proxy_opener():
         urllib.request.HTTPSHandler(context=ssl_context)
     )
     
+
     # Add user agent header
-    opener.addheaders = [('User-Agent', useragent)]
-    
+    # opener.addheaders = [('User-Agent', useragent)]
+
+    opener.addheaders = [
+        ('User-Agent', useragent),
+        ('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8'),
+        ('Accept-Language', 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7'),
+        ('Accept-Encoding', 'identity'),  # Không cho phép compression
+        ('Cache-Control', 'no-cache'),
+        ('Pragma', 'no-cache'),
+        ('Sec-Fetch-Dest', 'document'),
+        ('Sec-Fetch-Mode', 'navigate'),
+        ('Sec-Fetch-Site', 'none'),
+        ('Upgrade-Insecure-Requests', '1')
+    ]   
     return opener
 
 session = requests.Session()
@@ -88,6 +103,10 @@ def get_request_with_proxy(path_url):
         return tree
     
     except Exception as e:
+        # if e.code == 403:
+        #     print(f"Request failed: HTTP Error 403: Forbidden")
+        #     print("Stopping application due to access denied error.")
+        #     sys.exit(1)  # Dừng ứng dụng với exit code 1
         print(f"Request failed: {e}")
         return None
     
@@ -112,6 +131,12 @@ def get_request(path_url, headers={}, proxies=False):
         logger.info('Send GET request successfully')
         return tree, response
     else:
+        if response.status_code == 403:
+            print(f"Request failed: HTTP Error 403: Forbidden")
+            print("Stopping application due to access denied error.")
+            sys.exit(1)  # Dừng ứng dụng với exit code 1
+        else:
+            raise  # Re-raise exception khác nếu không phải 403
         logger.error(f'Failed to retrieve content. Status code: {response.status_code}')
         return False
 
@@ -823,7 +848,7 @@ def crawl_single_company_wrapper(row_data: Tuple) -> Optional[dict]:
         logging.error(f"[{thread_name}] Error crawling {company_slug}: {str(e)}")
         return None
 
-def crawl_batch_data(batch_df: pd.DataFrame, max_workers: int = 10) -> pd.DataFrame:
+def crawl_batch_data(batch_df: pd.DataFrame, max_workers: int = 20) -> pd.DataFrame:
     """
     Crawl dữ liệu cho một batch companies sử dụng 10 threads
     
@@ -967,7 +992,7 @@ def main():
     
     # Xử lý Miền Trung
     # process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
-    # batch_files = split_csv_into_batches("company_slugs.csv", batch_size=100)
-    process_company_slugs_in_results_dir()
+    batch_files = split_csv_into_batches("company_slugs.csv", batch_size=100)
+    # process_company_slugs_in_results_dir()
 
 main()
