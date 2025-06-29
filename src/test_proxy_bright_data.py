@@ -3,10 +3,15 @@ import ssl
 
 # BrightData proxy configuration
 BRIGHTDATA_PROXY = {
-    'username': 'brd-customer-hl_700e76f1-zone-residential_proxy1',
-    'password': '5nmllyvpntt7',
-    'endpoint': 'brd.superproxy.io',
-    'port': 33335
+    # 'username': 'brd-customer-hl_700e76f1-zone-residential_proxy1',
+    # 'password': '5nmllyvpntt7',
+    # 'endpoint': 'brd.superproxy.io',
+    # 'port': 33335
+
+    'username': 'package-295135-country-vn',
+    'password': '8lPYXZ9lVkIRmshQ',
+    'endpoint': 'proxy.soax.com',
+    'port': 5000
 }
 
 ignore_text = [

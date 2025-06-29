@@ -46,10 +46,15 @@ ignore_text = [
 
 # BrightData proxy configuration
 BRIGHTDATA_PROXY = {
-    'username': 'brd-customer-hl_5338dfdd-zone-residential_proxy1',
-    'password': 'bjo4gofshd0z',
-    'endpoint': 'brd.superproxy.io',
-    'port': 33335,
+    # 'username': 'brd-customer-hl_962a7fde-zone-residential_proxy1',
+    # 'password': '1329zn5t9a6c',
+    # 'endpoint': 'brd.superproxy.io',
+    # 'port': 33335,
+
+    'username': 'package-295135-country-vn',
+    'password': '8lPYXZ9lVkIRmshQ',
+    'endpoint': 'proxy.soax.com',
+    'port': 5000
 }
 
 def create_proxy_opener():
@@ -379,8 +384,8 @@ def crawl_data_company_by_data(crawl_by, data, cur, conn, headers=const_headers,
 
 def crawl_data_company_by_url(url='', province_id=None, district_id=None, career_id=None, cur=False, conn=False, headers={}, proxies=False, mien=None, khu_vuc=None, tinh=None):
     try:
-        # tree, response = get_request(url, headers, proxies)
-        tree = get_request_with_proxy(url)
+        tree, response = get_request(url, headers, proxies)
+        # tree = get_request_with_proxy(url)
         # with open('debug_response.html', 'w', encoding='utf-8') as f:
         #     if hasattr(tree, 'tag'):
         #         # Lấy text từ response đã decode đúng
@@ -992,7 +997,7 @@ def main():
     
     # Xử lý Miền Trung
     # process_company_slugs_in_batches("company_slugs.csv", batch_size=100)
-    batch_files = split_csv_into_batches("company_slugs.csv", batch_size=100)
-    # process_company_slugs_in_results_dir()
+    # batch_files = split_csv_into_batches("company_slugs.csv", batch_size=100)
+    process_company_slugs_in_results_dir()
 
 main()
